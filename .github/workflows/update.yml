@@ -28,10 +28,10 @@ jobs:
         git config --global user.email "hoya.develop@gmail.com"
         git config --global user.name "Changho Park"
         git config push.recurseSubmodules on-demand
-    - name: commit trend.json
+    - name: Commit trend.json
       working-directory: data
       run: |
-        git add trend.json
+        git add trends.json
         git commit -m "update: trends update."
     - name: Push trend.json
       run: git push origin main -f
