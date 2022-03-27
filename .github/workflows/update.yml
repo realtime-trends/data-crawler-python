@@ -23,11 +23,15 @@ jobs:
       run: |
         poetry install --no-dev
         poetry run python main.py
-    - name: Push trend.json
+    - name: Set git config
       run: |
         git config --global user.email "hoya.develop@gmail.com"
         git config --global user.name "Changho Park"
         git config push.recurseSubmodules on-demand
-        git add data
+    - name: commit trend.json
+      working-directory: data
+      run: |
+        git add trend.json
         git commit -m "update: trends update."
-        git push origin main -f --recurse-submodules=on-demand
+    - name: Push trend.json
+      run: git push origin main -f
