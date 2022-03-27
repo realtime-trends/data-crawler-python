@@ -90,7 +90,7 @@ if __name__ == "__main__":
     old_timestamps = []
     if timestamps:
         old_timestamps = sorted(
-            [timestamp for timestamp in timestamps if timestamp <= now - INTERVAL_SECS],
+            [timestamp for timestamp in timestamps if timestamp <= new_timestamp - INTERVAL_SECS],
             reverse=True,
         )
     old_trends = []
@@ -108,7 +108,7 @@ if __name__ == "__main__":
         for old_timestamp in old_timestamps[1:]:
             TrendJson.delete(str(old_timestamp))
         timestamps = list(set(timestamps) - set(old_timestamps[1:]))
-    timestamps.append(now)
+    timestamps.append(new_timestamp)
     TrendJson.update("timestamps", timestamps)
 
     TrendJson.write()
