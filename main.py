@@ -1,19 +1,23 @@
 import json
+import os
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Union
 
 from src import Trend, calculate_trends
 from src.crawl import set_delta
 
-TREND_FILE = "trends.json"
+TREND_FILE = "trends/trends.json"
 INTERVAL_SECS = 600
 
 
 class TrendJson:
     @classmethod
     def read(cls) -> Dict:
-        with open(TREND_FILE, "r") as trend_json:
-            cls.json_dict = json.load(trend_json)
+        if os.path.isfile(TREND_FILE):
+            with open(TREND_FILE, "r") as trend_json:
+                cls.json_dict = json.load(trend_json)
+        else:
+            cls.json_dict = {}
 
     @classmethod
     def write(cls):
