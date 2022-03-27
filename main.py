@@ -96,7 +96,9 @@ if __name__ == "__main__":
         )
     old_trends = []
     if old_timestamps:
-        old_trends = [Trend(**trend) for trend in TrendJson.get(old_timestamps[0])]
+        old_trends = [
+            Trend(**trend) for trend in TrendJson.get(old_timestamps[0], None) if trend
+        ]
 
     new_trends = set_delta(new_trends, old_trends)
     new_trends_dict = [vars(trend) for trend in new_trends]
