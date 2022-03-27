@@ -7,5 +7,6 @@ git add trends.json
 git commit -m "update: trends update."
 git push origin main
 cd ..
+git add data
 git commit -m "update: trends update."
 git push origin main -f
