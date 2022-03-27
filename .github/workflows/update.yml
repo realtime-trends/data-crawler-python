@@ -21,16 +21,13 @@ jobs:
         pip install poetry        
     - name: Run upadater
       run: |
-        poetry install
+        poetry install --no-dev
         poetry run python main.py
     - name: Push trend.json
-      working-directory: data
       run: |
-        git add trends.json
-        git commit -m "update: trends update."
-        git push origin main -f
-    - name: Push trend.json
-      run: |
+        git config --global user.email "hoya.develop@gmail.com"
+        git config --global user.name "Changho Park"
+        git config push.recurseSubmodules on-demand
         git add data
         git commit -m "update: trends update."
         git push origin main -f --recurse-submodules=on-demand
