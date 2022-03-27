@@ -107,7 +107,7 @@ if __name__ == "__main__":
         for old_timestamp in old_timestamps[1:]:
             TrendJson.delete(old_timestamp)
         timestamps = list(set(timestamps) - set(old_timestamps[1:]))
-    timestamps.append(new_timestamp)
+    timestamps.append(now)
     TrendJson.update("timestamps", timestamps)
 
     TrendJson.write()
