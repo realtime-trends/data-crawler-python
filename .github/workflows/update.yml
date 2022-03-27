@@ -33,7 +33,7 @@ jobs:
       run: |
         git add trends.json
         git commit -m "update: trends update."
-        git push -f
+        git push origin HEAD:main -f
     - name: Push trend.json
       run: |
         git add data
