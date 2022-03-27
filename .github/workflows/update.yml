@@ -33,8 +33,9 @@ jobs:
       run: |
         git add trends.json
         git commit -m "update: trends update."
+        git push origin main -f
     - name: Push trend.json
       run: |
         git add data
         git commit -m "update: trends update."
-        git push origin main -f --recurse-submodules=on-demand
+        git push origin main -f
