@@ -1,19 +1,16 @@
 name: Update trend json every minute
 
 on:
-  schedule:
-  - cron: "*/5 * * * *"
-
+  workflow_dispatch:
+  
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/checkout@v2
       with:
-        ref: data
-        path: data      
+        submodules: true    
     - name: Set up Python 3.7
       uses: actions/setup-python@v2
       with:
@@ -31,5 +28,5 @@ jobs:
       run: |
         git add trends.json
         git commit -m "update: trends update."
-        git push origin data
+        git push origin main -f
        
