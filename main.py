@@ -6,7 +6,7 @@ from typing import Any, Dict, List, Union
 from src import Trend, calculate_trends
 from src.crawl import set_delta
 
-TREND_FILE = "trends/trends.json"
+TREND_FILE = "data/trends.json"
 INTERVAL_SECS = 600
 
 
