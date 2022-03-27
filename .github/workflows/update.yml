@@ -2,7 +2,7 @@ name: Update trend json every minute
 
 on:
   schedule:
-  - cron: "* * * * *"
+  - cron: "*/5 * * * *"
 
 jobs:
   build:
