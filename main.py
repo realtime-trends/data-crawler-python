@@ -83,8 +83,7 @@ class TrendJson:
 if __name__ == "__main__":
     TrendJson.read()
 
-    now = int(datetime.now(timezone.utc).timestamp())
-    new_timestamp = str(now)
+    new_timestamp = int(datetime.now(timezone.utc).timestamp())
     new_trends = calculate_trends()
 
     timestamps: List[int] = TrendJson.get("timestamps", [])
@@ -97,17 +96,17 @@ if __name__ == "__main__":
     old_trends = []
     if old_timestamps:
         old_trends = [
-            Trend(**trend) for trend in TrendJson.get(old_timestamps[0], None) if trend
+            Trend(**trend) for trend in TrendJson.get(str(old_timestamps[0]), None) if trend
         ]
 
     new_trends = set_delta(new_trends, old_trends)
     new_trends_dict = [vars(trend) for trend in new_trends]
     print(new_trends_dict)
-    TrendJson.update(new_timestamp, new_trends_dict)
+    TrendJson.update(str(new_timestamp), new_trends_dict)
 
     if len(old_timestamps) >= 2:
         for old_timestamp in old_timestamps[1:]:
-            TrendJson.delete(old_timestamp)
+            TrendJson.delete(str(old_timestamp))
         timestamps = list(set(timestamps) - set(old_timestamps[1:]))
     timestamps.append(now)
     TrendJson.update("timestamps", timestamps)
