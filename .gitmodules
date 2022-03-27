@@ -1,3 +1,4 @@
 [submodule "data"]
 	path = data
 	url = https://github.com/hoyaaaa/realtime-trends-data
+	branch = main
