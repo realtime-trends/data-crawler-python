@@ -1,4 +1,5 @@
 import hashlib
+import json
 from dataclasses import dataclass
 from typing import List
 
@@ -32,3 +33,6 @@ class Trend:
     def add(self, score: float, maxscore: float) -> None:
         self.score += score
         self.maxscore = max(self.maxscore, maxscore)
+
+    def __repr__(self):
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)

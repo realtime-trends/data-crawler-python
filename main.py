@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
     new_trends = set_delta(new_trends, old_trends)
     new_trends = update_top_articles(new_trends)
-    new_trends_dict = [vars(trend) for trend in new_trends]
+    new_trends_dict = [trend.__dict__ for trend in new_trends]
     print(new_trends_dict)
     TrendJson.update(str(new_timestamp), new_trends_dict)
 
