@@ -1,9 +1,9 @@
 import json
 import os
-from ctypes import Union
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Union
 
 TREND_FILE = "data/trends.json"
+
 
 class TrendJson:
     @classmethod
