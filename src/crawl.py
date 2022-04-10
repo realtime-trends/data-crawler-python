@@ -94,12 +94,12 @@ def update_top_articles(trends: List[Trend]):
             if news:
                 trends[index].topArticles = [
                     Article(
-                        s.select_one("a.news_tit").attrs.get("title", ""),
-                        s.select_one("a.news_tit").attrs.get("href", ""),
-                        s.select_one("a.api_txt_lines.dsc_txt_wrap").text,
-                        s.select_one("img.thumb.api_get").attrs.get("src", ""),
+                        s.select_one("a.news_tit").attrs.get("title", "") if s.select_one("a.news_tit") else "",
+                        s.select_one("a.news_tit").attrs.get("href", "") if s.select_one("a.news_tit") else "",
+                        s.select_one("a.api_txt_lines.dsc_txt_wrap").text if s.select_one("a.api_txt_lines.dsc_txt_wrap") else "",
+                        s.select_one("img.thumb.api_get").attrs.get("src", "") if s.select_one("img.thumb.api_get") else "",
                     )
-                    for s in soup.select("ul.list_news > li")[:3]
+                    for s in news[:3]
                 ]
     return trends
 
