@@ -49,6 +49,7 @@ jobs:
       working-directory: data
       env:
         BRANCH: ${{ github.event.inputs.branch }}
+        REPO_USER: hoyaaaa
         REPO_KEY: ${{ github.event.inputs.github_token }}
       run: |
         git checkout --orphan tmp
@@ -57,4 +58,4 @@ jobs:
         git config --local user.name github-actions[bot]
         git config --local user.email github-actions[bot]@users.noreply.github.com
         git commit -am "update: Update data json."
-        git push https://github-actions[bot]:$REPO_KEY@github.com/realtime-trends/realtime-trends-data.git $BRANCH:$BRANCH -f
+        git push https://$REPO_USER:$REPO_KEY@github.com/realtime-trends/realtime-trends-data.git $BRANCH:$BRANCH -f
