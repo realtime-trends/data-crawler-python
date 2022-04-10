@@ -23,9 +23,9 @@ jobs:
     - name: Checkout data branch
       uses: actions/checkout@v3
       with:
+        repository: realtime-trends-data
         path: data
         ref: ${{ github.event.inputs.branch }}
-        token: ${{ github secrets.GITHUB_TOKEN }}
         
     - name: Set up Python 3.7
       uses: actions/setup-python@v3

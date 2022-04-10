@@ -1,10 +1,11 @@
 import warnings
 from typing import Dict, List
+from urllib import parse
 
 import requests
 from bs4 import BeautifulSoup
-
-from . import Trend
+from models.article import Article
+from models.trend import Trend
 
 WEIGHTS = [20, 19, 18, 17, 16, 15, 14, 13, 12, 11]
 ENGINE_BIAS = {
@@ -76,6 +77,28 @@ def calculate_trends() -> List[Trend]:
         if is_contain:
             del trends[hashed1]
     return sorted(trends.values(), key=lambda x: x.score, reverse=True)
+
+
+def update_top_articles(trends: List[Trend]):
+    for index, trend in enumerate(trends):
+        url = (
+            "https://search.naver.com/search.naver?where=news&sm=tab_jum&query="
+            + parse.quote(trend.keyword)
+        )
+        req = requests.get(url)
+        if req.status_code == 200:
+            html = req.text
+            soup = BeautifulSoup(html, "lxml", from_encoding="utf-8")
+            trends[index].topArticles = [
+                Article(
+                    s.select_one("a.news_tit").attrs.get("title", ""),
+                    s.select_one("a.news_tit").attrs.get("href", ""),
+                    s.select_one("a.api_txt_lines.dsc_txt_wrap").text,
+                    s.select_one("img.thumb.api_get").attrs.get("src", ""),
+                )
+                for s in soup.select("ul.list_news > li")[:3]
+            ]
+    return trends
 
 
 if __name__ == "__main__":
