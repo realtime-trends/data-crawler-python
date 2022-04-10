@@ -44,8 +44,10 @@ jobs:
     - name: Push to git
       working-directory: data
       run: |
+        git checkout --orphan tmp
+        git branch -D ${{ github.event.inputs.branch }}
+        git branch -m ${{ github.event.inputs.branch }}
         git config --global user.name "Realtime Trends"
         git config --global user.email "realtime-trends@github.com"
         git commit -am "update: Update data json."
-        git rebase --root -i
         git push origin ${{ github.event.inputs.branch }} -f
