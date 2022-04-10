@@ -7,6 +7,10 @@ on:
         description: 'update branch'
         required: true 
         type: string
+      github_token:
+        description: 'github_token'
+        required: true 
+        type: string
       key:
         description: 'object key'
         required: true 
@@ -43,11 +47,14 @@ jobs:
         
     - name: Push to git
       working-directory: data
+      env:
+        BRANCH: ${{ github.event.inputs.branch }}
+        REPO_KEY: ${{ github.event.inputs.github_token }}
       run: |
         git checkout --orphan tmp
-        git branch -D ${{ github.event.inputs.branch }}
-        git branch -m ${{ github.event.inputs.branch }}
-        git config --global user.name "Realtime Trends"
-        git config --global user.email "realtime-trends@github.com"
+        git branch -D $BRANCH
+        git branch -m $BRANCH
+        git config --local user.name github-actions[bot]
+        git config --local user.email github-actions[bot]@users.noreply.github.com
         git commit -am "update: Update data json."
-        git push origin ${{ github.event.inputs.branch }} -f
+        git push https://github-actions[bot]:$REPO_KEY@github.com/realtime-trends/realtime-trends-data $BRANCH:$BRANCH -f
