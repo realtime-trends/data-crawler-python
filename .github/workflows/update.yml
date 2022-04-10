@@ -1,0 +1,51 @@
+name: Update data
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'update branch'
+        required: true 
+        type: string
+      key:
+        description: 'object key'
+        required: true 
+        type: string
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Checkout data branch
+      uses: actions/checkout@v3
+      with:
+        path: data
+        ref: ${{ github.event.inputs.branch }}
+        token: ${{ github secrets.GITHUB_TOKEN }}
+        
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.7"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install poetry
+        python -m poetry install
+
+    - name: Run script
+      run: |
+        python -m poetry run python main.py
+        
+    - name: Push to git
+      working-directory: data
+      run: |
+        git config --global user.name "Realtime Trends"
+        git config --global user.email "realtime-trends@github.com"
+        git commit -am "update: Update data json."
+        git rebase --root -i
+        git push origin ${{ github.event.inputs.branch }} -f
