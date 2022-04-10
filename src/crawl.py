@@ -90,15 +90,17 @@ def update_top_articles(trends: List[Trend]):
         if req.status_code == 200:
             html = req.text
             soup = BeautifulSoup(html, "lxml", from_encoding="utf-8")
-            trends[index].topArticles = [
-                Article(
-                    s.select_one("a.news_tit").attrs.get("title", ""),
-                    s.select_one("a.news_tit").attrs.get("href", ""),
-                    s.select_one("a.api_txt_lines.dsc_txt_wrap").text,
-                    s.select_one("img.thumb.api_get").attrs.get("src", ""),
-                )
-                for s in soup.select("ul.list_news > li")[:3]
-            ]
+            news = soup.select("ul.list_news > li")
+            if news:
+                trends[index].topArticles = [
+                    Article(
+                        s.select_one("a.news_tit").attrs.get("title", ""),
+                        s.select_one("a.news_tit").attrs.get("href", ""),
+                        s.select_one("a.api_txt_lines.dsc_txt_wrap").text,
+                        s.select_one("img.thumb.api_get").attrs.get("src", ""),
+                    )
+                    for s in soup.select("ul.list_news > li")[:3]
+                ]
     return trends
 
 
