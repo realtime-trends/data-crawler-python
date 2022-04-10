@@ -17,7 +17,9 @@ class TrendJson:
     @classmethod
     def write(cls):
         with open(TREND_FILE, "w") as trend_json:
-            json.dump(cls.json_dict, trend_json, ensure_ascii=False, indent=4)
+            json.dump(
+                cls.json_dict, trend_json, default=vars, ensure_ascii=False, indent=4
+            )
 
     @classmethod
     def update(cls, key: str, value: Union[List, Dict], json_dict: Any = None) -> Dict:
