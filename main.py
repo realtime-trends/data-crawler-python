@@ -1,7 +1,8 @@
 from datetime import datetime, timezone
 from typing import List
 
-from src import Trend, calculate_trends
+from models.trend import Trend
+from src import calculate_trends
 from src.crawl import set_delta, update_top_articles
 from src.trendjson import TrendJson
 
