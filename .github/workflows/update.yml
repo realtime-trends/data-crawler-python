@@ -57,4 +57,4 @@ jobs:
         git config --local user.name github-actions[bot]
         git config --local user.email github-actions[bot]@users.noreply.github.com
         git commit -am "update: Update data json."
-        git push https://github-actions[bot]:$REPO_KEY@github.com/realtime-trends/realtime-trends-data $BRANCH:$BRANCH -f
+        git push https://github-actions[bot]:$REPO_KEY@github.com/realtime-trends/realtime-trends-data.git $BRANCH:$BRANCH -f
