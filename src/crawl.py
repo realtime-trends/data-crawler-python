@@ -35,6 +35,7 @@ def get_trends_by_engine(engine: str) -> List[Trend]:
         url = "https://www.nate.com/js/data/jsonLiveKeywordDataV1.js"
         req = requests.get(url)
         if req.status_code == 200:
+            req.encoding = "euc-kr"
             keywords = [j[1] for j in req.json()]
     for index, keyword in enumerate(keywords):
         score = WEIGHTS[index] * ENGINE_BIAS[engine]
