@@ -30,6 +30,7 @@ jobs:
         repository: realtime-trends/realtime-trends-data
         path: data
         ref: ${{ github.event.inputs.branch }}
+        token: ${{ github.event.inputs.github_token }}
         
     - name: Set up Python 3.7
       uses: actions/setup-python@v3
@@ -49,7 +50,7 @@ jobs:
       working-directory: data
       env:
         BRANCH: ${{ github.event.inputs.branch }}
-        REPO_USER: hoyaaaa
+        REPO_USER: github-actions[bot]
         REPO_KEY: ${{ github.event.inputs.github_token }}
       run: |
         git checkout --orphan tmp
