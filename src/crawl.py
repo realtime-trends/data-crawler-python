@@ -91,16 +91,19 @@ def update_top_articles(trends: List[Trend]):
             html = req.text
             soup = BeautifulSoup(html, "lxml", from_encoding="utf-8")
             news = soup.select("ul.list_news > li")
-            if news:
-                trends[index].topArticles = [
-                    Article(
-                        s.select_one("a.news_tit").attrs.get("title", "") if s.select_one("a.news_tit") else "",
-                        s.select_one("a.news_tit").attrs.get("href", "") if s.select_one("a.news_tit") else "",
-                        s.select_one("a.api_txt_lines.dsc_txt_wrap").text if s.select_one("a.api_txt_lines.dsc_txt_wrap") else "",
-                        s.select_one("img.thumb.api_get").attrs.get("src", "") if s.select_one("img.thumb.api_get") else "",
-                    )
-                    for s in news[:3]
-                ]
+            trends[index].topArticles = []
+            topArticles = []
+            for new in news:
+                title = new.select_one("a.news_tit").attrs.get("title", "") if new.select_one("a.news_tit") else ""
+                links = [link.attrs.get("href", "") for link in new.select("a.info") if link.attrs.get('class', []) == ['info']]
+                link = links[0] if links else ""
+                content = new.select_one("a.api_txt_lines.dsc_txt_wrap").text if new.select_one("a.api_txt_lines.dsc_txt_wrap") else ""
+                image = new.select_one("img.thumb.api_get").attrs.get("src", "") if new.select_one("img.thumb.api_get") else ""
+                if title and link and content and image:
+                    topArticles.append(Article(title, link, content, image))
+                if len(topArticles) >= 3:
+                    break
+            trends[index].topArticles = topArticles
     return trends
 
 
