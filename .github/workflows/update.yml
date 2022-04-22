@@ -42,8 +42,7 @@ jobs:
         python -m pip install -r requirements.txt
 
     - name: Run script
-      run: |
-        python -m poetry run python main.py
+      run: python main.py
         
     - name: Push to git
       working-directory: data
