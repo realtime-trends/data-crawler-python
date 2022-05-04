@@ -15,7 +15,7 @@ ENGINE_BIAS = {
     "zum": 1.0,
 }
 SIMILARITY_WEIGHT = 0.7
-IGNORE_SYMBOLS = r"[!@#$%^&*\(\)\[\]\{\};:,./<>?\|`~-=_+]"
+IGNORE_SYMBOLS = r"[!@#$%^&*\(\)\[\]\{\};:,./<>?\|`\~-=_+]"
 
 
 def process_keyword(keyword: str):
