@@ -3,11 +3,11 @@ import warnings
 from typing import Dict, List
 from urllib import parse
 
+import hanja
 import requests
 from bs4 import BeautifulSoup
 from models.article import Article
 from models.trend import Trend
-from tomlkit import key
 
 WEIGHTS = [20, 19, 18, 17, 16, 15, 14, 13, 12, 11]
 ENGINE_BIAS = {
@@ -17,9 +17,11 @@ ENGINE_BIAS = {
 SIMILARITY_WEIGHT = 0.7
 IGNORE_SYMBOLS = r"[!@#$%^&*\(\)\[\]\{\};:,./<>?\|`~-=_+]"
 
+
 def process_keyword(keyword: str):
     keyword = re.sub(IGNORE_SYMBOLS, " ", keyword)
     keyword = re.sub(r" +", " ", keyword)
+    keyword = hanja.translate(keyword, "substitution")
     return keyword
 
 
@@ -33,7 +35,9 @@ def get_trends_by_engine(engine: str) -> List[Trend]:
         if req.status_code == 200:
             html = req.text
             soup = BeautifulSoup(html, "lxml", from_encoding="utf-8")
-            for s in soup.select("#issue_wrap > ul > li > div > a:nth-child(1) > span.txt"):
+            for s in soup.select(
+                "#issue_wrap > ul > li > div > a:nth-child(1) > span.txt"
+            ):
                 keyword = process_keyword(s.text)
                 keywords.append(keyword)
     elif engine == "nate":
@@ -101,11 +105,27 @@ def update_top_articles(trends: List[Trend]):
             trends[index].topArticles = []
             topArticles = []
             for new in news:
-                title = new.select_one("a.news_tit").attrs.get("title", "") if new.select_one("a.news_tit") else ""
-                links = [link.attrs.get("href", "") for link in new.select("a.info") if link.attrs.get('class', []) == ['info']]
+                title = (
+                    new.select_one("a.news_tit").attrs.get("title", "")
+                    if new.select_one("a.news_tit")
+                    else ""
+                )
+                links = [
+                    link.attrs.get("href", "")
+                    for link in new.select("a.info")
+                    if link.attrs.get("class", []) == ["info"]
+                ]
                 link = links[0] if links else ""
-                content = new.select_one("a.api_txt_lines.dsc_txt_wrap").text if new.select_one("a.api_txt_lines.dsc_txt_wrap") else ""
-                image = new.select_one("img.thumb.api_get").attrs.get("src", "") if new.select_one("img.thumb.api_get") else ""
+                content = (
+                    new.select_one("a.api_txt_lines.dsc_txt_wrap").text
+                    if new.select_one("a.api_txt_lines.dsc_txt_wrap")
+                    else ""
+                )
+                image = (
+                    new.select_one("img.thumb.api_get").attrs.get("src", "")
+                    if new.select_one("img.thumb.api_get")
+                    else ""
+                )
                 if title and link and content and image:
                     topArticles.append(Article(title, link, content, image))
                 if len(topArticles) >= 3:
