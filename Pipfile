@@ -7,9 +7,10 @@ name = "pypi"
 bs4 = "*"
 lxml = "*"
 requests = "*"
+hanja = "*"
 
 [dev-packages]
 black = "*"
 
 [requires]
-python_version = "3.9"
+python_version = "3"
