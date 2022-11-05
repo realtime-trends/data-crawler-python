@@ -30,7 +30,7 @@ def get_trends_by_engine(engine: str) -> List[Trend]:
     keywords: List[str] = []
 
     if engine == "zum":
-        url = "https://search.zum.com/search.zum"
+        url = "https://search.zum.com/search.zum?query="
         req = requests.get(url)
         if req.status_code == 200:
             html = req.text
