@@ -6,11 +6,9 @@ from urllib import parse
 import hanja
 import requests
 from bs4 import BeautifulSoup
+import selenium
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC 
 
 from models.article import Article
 from models.trend import Trend
