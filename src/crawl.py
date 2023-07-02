@@ -107,6 +107,7 @@ def update_top_articles(trends: List[Trend]):
     ]
     for option in options:
         chrome_options.add_argument(option)
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
     for index, trend in enumerate(trends):
         url = (
             "https://search.naver.com/search.naver?where=news&sm=tab_jum&query="
