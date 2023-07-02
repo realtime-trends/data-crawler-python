@@ -143,8 +143,7 @@ def update_top_articles(trends: List[Trend]):
             if len(topArticles) >= 3:
                 break
         trends[index].topArticles = topArticles
-        driver.close()
-    driver.quit()
+    driver.close()
     return trends
 
 
