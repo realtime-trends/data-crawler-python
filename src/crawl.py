@@ -114,37 +114,35 @@ def update_top_articles(trends: List[Trend]):
             + parse.quote(trend.keyword)
         )
         driver.get(url)
-        if req.status_code == 200:
-            html = req.text
-            news = driver.find_elements_by_css_selector("ul.list_news > li")
-            trends[index].topArticles = []
-            topArticles = []
-            for new in news:
-                title, link, content, image = "", "", "", ""
-            
-                title_selector = new.find_element_by_css_selector("a.news_tit")
-                if title_selector and title_selector.get_attribute("title"):
-                    title = title_selector.get_attribute("title")
-            
-                link_seletors = new.find_elements_by_css_selector("a.info")
-                for link_seletor in link_seletors:
-                    if link_seletor.get_attribute("class").split(" ") == ["info"] and link_seletor.get_attribute("href"):
-                        link = link_seletor.get_attribute("href")
-                        break
-            
-                content_selector = new.find_element_by_css_selector("a.api_txt_lines.dsc_txt_wrap")
-                if content_selector:
-                    content = content_selector.text
-            
-                image_seletor = new.find_element_by_css_selector("img.thumb.api_get")
-                if image_seletor and image_seletor.get_attribute("src"):
-                    image = image_seletor.get_attribute("src")
-                
-                if title and link and content and image:
-                    topArticles.append(Article(title, link, content, image))
-                if len(topArticles) >= 3:
+        news = driver.find_elements_by_css_selector("ul.list_news > li")
+        trends[index].topArticles = []
+        topArticles = []
+        for new in news:
+            title, link, content, image = "", "", "", ""
+        
+            title_selector = new.find_element_by_css_selector("a.news_tit")
+            if title_selector and title_selector.get_attribute("title"):
+                title = title_selector.get_attribute("title")
+        
+            link_seletors = new.find_elements_by_css_selector("a.info")
+            for link_seletor in link_seletors:
+                if link_seletor.get_attribute("class").split(" ") == ["info"] and link_seletor.get_attribute("href"):
+                    link = link_seletor.get_attribute("href")
                     break
-            trends[index].topArticles = topArticles
+        
+            content_selector = new.find_element_by_css_selector("a.api_txt_lines.dsc_txt_wrap")
+            if content_selector:
+                content = content_selector.text
+        
+            image_seletor = new.find_element_by_css_selector("img.thumb.api_get")
+            if image_seletor and image_seletor.get_attribute("src"):
+                image = image_seletor.get_attribute("src")
+            
+            if title and link and content and image:
+                topArticles.append(Article(title, link, content, image))
+            if len(topArticles) >= 3:
+                break
+        trends[index].topArticles = topArticles
         driver.close()
     driver.quit()
     return trends
