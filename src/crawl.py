@@ -96,7 +96,7 @@ def calculate_trends() -> List[Trend]:
 
 
 def update_top_articles(trends: List[Trend]):
-    chromium_options = webdriver.ChromiumOptions()
+    chrome_options = webdriver.ChromeOptions()
     options = [
         "--headless",
         "--disable-gpu",
@@ -107,10 +107,10 @@ def update_top_articles(trends: List[Trend]):
         "--disable-dev-shm-usage"
     ]
     for option in options:
-        chromium_options.add_argument(option)
-        chromium_options.binary_location = "/usr/bin/chromium-browser"
+        chrome_options.add_argument(option)
+        chrome_options.binary_location = "/usr/bin/chromium-browser"
     driver_path = "/usr/bin/chromedriver"
-    driver = webdriver.Chrome(driver_path, options=chromium_options)
+    driver = webdriver.Chrome(driver_path, options=chrome_options)
     for index, trend in enumerate(trends):
         url = (
             "https://search.naver.com/search.naver?where=news&sm=tab_jum&query="
