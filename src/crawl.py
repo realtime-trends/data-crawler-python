@@ -21,11 +21,17 @@ ENGINE_BIAS = {
 SIMILARITY_WEIGHT = 0.7
 IGNORE_SYMBOLS = r"[!@#$%^&*\(\)\[\]\{\};:,./<>?\|`]"
 
+except_keywords = []
+with open("data/except.txt", "r", encoding="utf-8") as except_file:
+    except_keywords = except_file.read().strip().split("\n")
 
 def process_keyword(keyword: str):
     keyword = re.sub(IGNORE_SYMBOLS, " ", keyword)
     keyword = re.sub(r" +", " ", keyword)
     keyword = hanja.translate(keyword, "substitution")
+    for except_keyword in except_keywords:
+        if except_keyword.lower() in keyword.lower():
+            return None
     return keyword
 
 
@@ -43,6 +49,8 @@ def get_trends_by_engine(engine: str) -> List[Trend]:
                 "#issue_wrap > ul > li > div > a:nth-child(1) > span.txt"
             ):
                 keyword = process_keyword(s.text)
+                if keyword == None:
+                    continue
                 keywords.append(keyword)
     elif engine == "nate":
         url = "https://www.nate.com/js/data/jsonLiveKeywordDataV1.js"
@@ -51,6 +59,8 @@ def get_trends_by_engine(engine: str) -> List[Trend]:
             req.encoding = "euc-kr"
             for j in req.json():
                 keyword = process_keyword(j[1])
+                if keyword == None:
+                    continue
                 keywords.append(keyword)
     for index, keyword in enumerate(keywords):
         score = WEIGHTS[index] * ENGINE_BIAS[engine]
