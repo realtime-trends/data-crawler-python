@@ -3,7 +3,7 @@ from typing import List
 
 from models.trend import Trend
 from src import calculate_trends
-from src.crawl import set_delta, update_top_articles
+from src.crawl import set_delta
 from src.trendjson import TrendJson
 
 INTERVAL_SECS = 600
