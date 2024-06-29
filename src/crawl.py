@@ -22,7 +22,7 @@ SIMILARITY_WEIGHT = 0.7
 IGNORE_SYMBOLS = r"[!@#$%^&*\(\)\[\]\{\};:,./<>?\|`]"
 
 except_keywords = []
-with open("data/except.txt", "r", encoding="utf-8") as except_file:
+with open("./except.txt", "r", encoding="utf-8") as except_file:
     except_keywords = except_file.read().strip().split("\n")
 
 def process_keyword(keyword: str):
