@@ -22,7 +22,7 @@ SIMILARITY_WEIGHT = 0.7
 IGNORE_SYMBOLS = r"[!@#$%^&*\(\)\[\]\{\};:,./<>?\|`]"
 
 except_keywords = []
-with open("./except.txt", "r", encoding="utf-8") as except_file:
+with open("ref/except.txt", "r", encoding="utf-8") as except_file:
     except_keywords = except_file.read().strip().split("\n")
 
 def process_keyword(keyword: str):
@@ -148,21 +148,21 @@ def update_top_articles(trends: List[Trend]):
                         break
             except selenium.common.exceptions.NoSuchElementException:
                 print("Couldn't find link")
-                
+
             try:
                 content_selector = new.find_element_by_css_selector("a.api_txt_lines.dsc_txt_wrap")
                 if content_selector:
                     content = content_selector.text
             except selenium.common.exceptions.NoSuchElementException:
                 print("Couldn't find content")
-                
+
             try:
                 image_seletor = new.find_element_by_css_selector("img.thumb.api_get")
                 if image_seletor and image_seletor.get_attribute("src"):
                     image = image_seletor.get_attribute("src")
             except selenium.common.exceptions.NoSuchElementException:
                 print("Couldn't find image")
-            
+
             if title and link and content and image:
                 topArticles.append(Article(title, link, content, image))
             if len(topArticles) >= 3:
