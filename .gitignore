@@ -1,4 +1,8 @@
 .venv/
 .vscode/
 
-__pycache__/
+node_modules/
+dist/
+build/
+
+package-lock.json
